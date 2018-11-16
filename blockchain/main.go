@@ -77,7 +77,7 @@ func makeMuxRouter() http.Handler {
 	return muxRouter
 }
 
-func handleGetBlockchain(w http.ResponseWriter, r *http.Request)  {
+func handleGetBlockchain(w http.ResponseWriter, r *http.Request) {
 	bytes, err := json.MarshalIndent(Blockchain, "", " ")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -86,7 +86,7 @@ func handleGetBlockchain(w http.ResponseWriter, r *http.Request)  {
 	io.WriteString(w, string(bytes))
 }
 
-func handleWriteBlockchain(w http.ResponseWriter, r *http.Request)  {
+func handleWriteBlockchain(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var msg Message
 
@@ -109,7 +109,7 @@ func handleWriteBlockchain(w http.ResponseWriter, r *http.Request)  {
 	respondWithJSON(w, r, http.StatusCreated, newBlock)
 }
 
-func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{})  {
+func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
 	response, err := json.MarshalIndent(payload, "", " ")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -133,7 +133,7 @@ func isBlockValid(newBlock, oldBlock Block) bool {
 }
 
 func calculateHash(block Block) string {
-	record := strconv.Itoa(block.Index)+block.Timestamp+strconv.Itoa(block.Data)+block.PrevHash
+	record := strconv.Itoa(block.Index) + block.Timestamp + strconv.Itoa(block.Data) + block.PrevHash
 	h := sha256.New()
 	h.Write([]byte(record))
 	hashed := h.Sum(nil)
@@ -143,7 +143,7 @@ func calculateHash(block Block) string {
 func generateBlock(oldBlock Block, Data int) Block {
 	var newBlock Block
 	t := time.Now()
-	newBlock.Index = oldBlock.Index +1
+	newBlock.Index = oldBlock.Index + 1
 	newBlock.Timestamp = t.String()
 	newBlock.Data = Data
 	newBlock.PrevHash = oldBlock.Hash
