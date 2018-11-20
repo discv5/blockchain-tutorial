@@ -158,7 +158,7 @@ func handleConn(conn net.Conn) {
 		break
 	}
 
-	io.WriteString(conn, "\nEnter a new Data")
+	io.WriteString(conn, "\nEnter a new Data: ")
 	scanData := bufio.NewScanner(conn)
 
 	go func() {
@@ -172,7 +172,7 @@ func handleConn(conn net.Conn) {
 				}
 
 				mutex.Lock()
-				oldLastIndex := Blockchain[len(Blockchain)+1]
+				oldLastIndex := Blockchain[len(Blockchain)-1]
 				mutex.Unlock()
 
 				newBlock, err := generateBlock(oldLastIndex, data, address)
@@ -183,7 +183,7 @@ func handleConn(conn net.Conn) {
 				if isBlockValid(newBlock, oldLastIndex) {
 					candidateBlocks <- newBlock
 				}
-				io.WriteString(conn, "\nEnter a new Data")
+				io.WriteString(conn, "\nEnter a new Data: ")
 			}
 		}
 	}()
