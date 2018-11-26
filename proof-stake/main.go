@@ -119,7 +119,7 @@ func pickWinner() {
 				Blockchain = append(Blockchain, block)
 				mutex.Unlock()
 
-				for _ = range validators {
+				for _ := range validators {
 					announcements <- "\nwinning validator: " + lotteryWinner + "\n"
 				}
 				break
@@ -143,7 +143,7 @@ func handleConn(conn net.Conn) {
 	}()
 
 	var address string
-	io.WriteString(conn, "Enter token balance:")
+	io.WriteString(conn, "Enter token balance: ")
 	scanBalance := bufio.NewScanner(conn)
 	for scanBalance.Scan() {
 		balance, err := strconv.Atoi(scanBalance.Text())
